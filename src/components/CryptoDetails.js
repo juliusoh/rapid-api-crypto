@@ -15,8 +15,8 @@ import {
   ThunderboltOutlined,
 } from "@ant-design/icons";
 // import Loader from './Loader';
-// import LineChart from './LineChart';
-import { useGetCryptoDetailsQuery } from "../services/cryptoApi";
+import LineChart from './LineChart';
+import { useGetCryptoDetailsQuery, useGetCryptoHistoryQuery } from "../services/cryptoApi";
 
 const { Title, Text } = Typography;
 const { Option } = Select;
@@ -25,7 +25,8 @@ const CryptoDetails = () => {
   const { coinId } = useParams();
   const [timePeriod, setTimePeriod] = useState("7d");
   const { data, isFetching } = useGetCryptoDetailsQuery(coinId);
-  console.log(data);
+  const { data: coinHistory } = useGetCryptoHistoryQuery({coinId, timePeriod});
+  console.log(coinHistory);
   const cryptoDetails = data?.data?.coin;
   if (isFetching) return "Loading...";
   console.log(cryptoDetails);
@@ -34,7 +35,7 @@ const CryptoDetails = () => {
   const stats = [
     {
       title: "Price to USD",
-      value: `$ ${cryptoDetails.price && millify(cryptoDetails.price)}`,
+      value: `$ ${cryptoDetails.price && parseFloat(cryptoDetails.price).toFixed(2)}`,
       icon: <DollarCircleOutlined />,
     },
     { title: "Rank", value: cryptoDetails.rank, icon: <NumberOutlined /> },
@@ -106,7 +107,7 @@ const CryptoDetails = () => {
       >
         {time.map((date) => <Option key={date}>{date}</Option>)}
       </Select>
-      {/* line chart... */}
+      <LineChart coinHistory={coinHistory} currentPrice={parseFloat(cryptoDetails.price).toFixed(2)} coinName={cryptoDetails.name} timePeriod={timePeriod}/>
       <Col className="stats-container">
         <Col className="coin-value-statistics">
           <Col className="coin-value-statistics-heading">

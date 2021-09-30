@@ -42,7 +42,7 @@ const Cryptocurrencies = ({ simplified }) => {
                   />
                 }
               >
-                <p>Price: ${millify(currency.price)}</p>
+                <p>Price: ${parseFloat(currency.price).toFixed(2)}</p>
                 <p>Market Cap: {millify(currency.marketCap)}</p>
                 { currency.change< 0 ? (
                   <p>Daily Change: <span style={{color: "red", fontWeight: "bolder"}}>{millify(currency.change)}%</span></p>
