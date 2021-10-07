@@ -17,7 +17,7 @@ const Homepage = () => {
   return (
     <>
       <Title level={2} className="heading">
-        Global Crypto Stats
+        Global Cryptocurrency Stats
       </Title>
       <Row>
         <Col span={12}>
